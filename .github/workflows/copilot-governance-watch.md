@@ -113,10 +113,13 @@ ls /tmp/gh-aw/cache-memory/
 cat docs/_data/governance-watch-state.json
 grep -n -i -C 3 'permissions' docs/sections/managed-settings.md
 rg -n -i 'permissions' docs/sections/
+rg --files docs/
 head -n 60 docs/CHANGELOG.md
 tail -n 40 docs/CHANGELOG.md
 curl --fail --silent --show-error --location --connect-timeout 15 --max-time 60 'https://github.blog/changelog/feed/'
 ```
+
+For file-path discovery, use `rg --files <path>` (for example, `rg --files docs/`); do not use `git ls-files` or pipe commands together.
 
 ### On the first permission denial
 
