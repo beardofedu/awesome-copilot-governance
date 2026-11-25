@@ -99,6 +99,15 @@ class GovernanceWatchPromptTests(unittest.TestCase):
         self.assertEqual(executables, {"date", "ls", "cat", "grep", "rg", "head", "tail", "curl"})
         self.assertIn("--connect-timeout 15 --max-time 60", commands)
 
+    def test_file_path_discovery_uses_an_allowed_single_command(self):
+        commands = EXECUTION_CONTRACT.split("```bash\n", 1)[1].split("```", 1)[0]
+        self.assertIn("rg --files docs/", commands)
+        self.assertIn(
+            "For file-path discovery, use `rg --files <path>`",
+            EXECUTION_CONTRACT,
+        )
+        self.assertIn("do not use `git ls-files` or pipe commands together", EXECUTION_CONTRACT)
+
     def test_shell_permissions_remain_restricted(self):
         config = compiled_json_env("GH_AW_COPILOT_SDK_TOOL_CONFIG")
         args = compiled_json_env("GH_AW_COPILOT_SDK_SERVER_ARGS")
